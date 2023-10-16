@@ -84,10 +84,7 @@ if __name__ == '__main__':
             outputs = model(input_ids=input_ids, attention_mask=attention_mask, labels=labels)
             loss = outputs.loss
             loss.backward()
-            if pd.isna(loss.item()) == True:
-                total_loss += 0
-            else:
-                total_loss += loss.item()
+            total_loss += loss.item()
 
             optimizer.step()
             lr_scheduler.step()
@@ -100,12 +97,7 @@ if __name__ == '__main__':
             with torch.no_grad():
                 outputs = model(input_ids=input_ids, attention_mask=attention_mask, labels=labels)
             loss = outputs.loss
-            if pd.isna(loss.item()) == True:
-                print(step)
-                print(loss)
-                eval_loss += 0
-            else:
-                eval_loss += loss.item()
+            eval_loss += loss.item()
             
         train_epoch_loss = total_loss / len(train_dataloader)
         eval_epoch_loss = eval_loss / len(valid_dataloader)
