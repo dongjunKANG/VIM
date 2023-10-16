@@ -93,9 +93,6 @@ if __name__ == '__main__':
     country_list.sort()
 
     
-        
-    
-    mse_list = []
     nmse_list = []
     name_list = []
 
@@ -123,18 +120,14 @@ if __name__ == '__main__':
         nmse_list.append(nmse)
         
         
-        mse = mean_squared_error(pred_score, target_score)
-        print(f"{country_name} MSE: {mse}")
-        mse_list.append(mse)
+
+        print(f"{country_name} MSE: {nmse}")
         name_list.append(country_name)
         
 
 
         pred_scores.append(pred_score)
         target_scores.append(target_score)
-        
-    avg_mse = sum(mse_list)/len(mse_list)
-    mse_list.append(avg_mse)
     
     avg_nmse = sum(nmse_list)/len(nmse_list)
     nmse_list.append(avg_nmse)
@@ -142,10 +135,6 @@ if __name__ == '__main__':
     
     names = name_list.copy()
     names.append('TOTAL AVERAGE')
-    mse_data = {
-        'Country':names,
-        'MSE':mse_list
-    }
     
     nmse_data = {
         'Country':names,
@@ -166,8 +155,6 @@ if __name__ == '__main__':
         result_path = f'./results/pvq_scores/argument_survey/llama/{strategy}_TH_{threshold}' 
    
     os.makedirs(result_path, exist_ok=True)
-    mse_df = pd.DataFrame(data=mse_data)
-    mse_df.to_csv(p.join(result_path, 'MSE_TOTAL.csv'), sep='\t')
     
     nmse_df = pd.DataFrame(data=nmse_data)
     nmse_df.to_csv(p.join(result_path, 'NMSE_TOTAL.csv'), sep='\t')
