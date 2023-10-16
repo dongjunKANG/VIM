@@ -7,7 +7,7 @@ This code provides the implementation of "Value Injection Method (VIM)".
 # How to run
 In `src` folder, we make bash script file to train and inference, and evaluate for Value Injection Method (VIM).
 
-Please move the `data` folder into the `software/src` before running.
+Please move the `data` folder into the `src` before running.
 
 In this code, train, reference, and performance calculation are conducted for 128 groups (28 country groups, 100 social groups) obtained from the European Social Survey.
 
