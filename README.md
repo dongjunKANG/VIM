@@ -36,7 +36,7 @@ This code train VIM, VIM_AG, VIM_QA method.
 -------------------
 # Evaluation Task
 1. Portrait Values Questionnaire (PVQ)
-2. Touché23-ValueEval dataset
+2. Touché23-ValueEval dataset (Argument Generation)
 3. VALUENET
 4. European Social Survey (ESS)
 -------------------
