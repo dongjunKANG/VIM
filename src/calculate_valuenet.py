@@ -29,7 +29,7 @@ def calc_valuenet_mse(country_name, model_name, mode, strategy, threshold):
     
     
     ratio_list = []
-    value_mse_list = []
+    value_nmse_list = []
     
     for target_scr, value in zip(target_score, value_list):
         val_df = gen_df.groupby('Value').get_group(f'{value}')
@@ -59,10 +59,10 @@ def calc_valuenet_mse(country_name, model_name, mode, strategy, threshold):
     
         rescaled_scr = (target_scr-1)/5
         value_mse = mean_squared_error([ratio], [rescaled_scr])
-        value_mse_list.append(value_mse)
+        value_nmse_list.append(value_mse)
 
-    mse = mean_squared_error(ratio_list, target_score)
-    return mse, value_mse_list
+    nmse = mean_squared_error(ratio_list, target_score)
+    return nmse, value_nmse_list
     
         
     
@@ -83,53 +83,53 @@ if __name__ == '__main__':
     country_list = os.listdir(mode_path)
     country_list.sort()
 
-    mse_list = []
+    nmse_list = []
     name_list = []
 
     pred_scores = []
     target_scores = []
     
-    value_mse = [[], [], [], [], [], [], [], [], [], []]
+    value_nmse = [[], [], [], [], [], [], [], [], [], []]
     
     
     for country_name in country_list:
         print(country_name)
-        mse, v_mse_list = calc_valuenet_mse(country_name, model_name, mode, strategy, threshold)
-        mse_list.append(mse)
+        nmse, v_nmse_list = calc_valuenet_mse(country_name, model_name, mode, strategy, threshold)
+        nmse_list.append(nmse)
         name_list.append(country_name)
-        for i, v_mse in enumerate(v_mse_list):
-            value_mse[i].append(v_mse)
+        for i, v_nmse in enumerate(v_nmse_list):
+            value_nmse[i].append(v_nmse)
     
     name_list.append('TOTAL')
-    mse_list.append(sum(mse_list)/len(mse_list))
+    nmse_list.append(sum(nmse_list)/len(nmse_list))
     for i in range(10):
-        value_mse[i].append(sum(value_mse[i])/len(value_mse[i]))
+        value_nmse[i].append(sum(value_nmse[i])/len(value_nmse[i]))
     
     data = {
         'Country':name_list,
-        'MSE':mse_list
+        'NMSE':nmse_list
     }
     
-    value_mse_data = {
+    value_nmse_data = {
         'Country':name_list,
-        'Achievement':value_mse[0],
-        'Benevolence':value_mse[1],
-        'Conformity':value_mse[2],
-        'Hedonism':value_mse[3],
-        'Power':value_mse[4],
-        'Security':value_mse[5],
-        'Self-direction':value_mse[6],
-        'Stimulation':value_mse[7],
-        'Tradition':value_mse[8],
-        'Universalism':value_mse[9]
+        'Achievement':value_nmse[0],
+        'Benevolence':value_nmse[1],
+        'Conformity':value_nmse[2],
+        'Hedonism':value_nmse[3],
+        'Power':value_nmse[4],
+        'Security':value_nmse[5],
+        'Self-direction':value_nmse[6],
+        'Stimulation':value_nmse[7],
+        'Tradition':value_nmse[8],
+        'Universalism':value_nmse[9]
     }
     
     
     df = pd.DataFrame(data=data)
     df.to_csv(f'./results/valuenet/{mode}_nmse.csv', sep='\t')
     
-    value_mse_df = pd.DataFrame(data=value_mse_data)
-    value_mse_df.to_csv(f'./results/valuenet/{mode}_value_nmse.csv', sep='\t')
+    value_nmse_df = pd.DataFrame(data=value_nmse_data)
+    value_nmse_df.to_csv(f'./results/valuenet/{mode}_value_nmse.csv', sep='\t')
         
     
     
